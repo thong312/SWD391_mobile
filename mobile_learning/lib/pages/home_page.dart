@@ -12,13 +12,13 @@ class HomePage extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold, // Đặt font chữ in đậm
             fontSize: 30, // Đặt kích thước font chữ
-            color: Colors.black, // Đặt màu chữ là màu trắng
+            color: Colors.pink, // Đặt màu chữ là màu trắng
           ),
         ),
       ),
       body: Center(
         child: const Text(
-          'This is the home page!', // Nội dung của trang home
+          'This is not the home page!', // Nội dung của trang home
         ),
       ),
     );
