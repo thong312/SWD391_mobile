@@ -16,8 +16,8 @@ class MyApp extends StatelessWidget {
         // Đặt theme cho ứng dụng của bạn
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(
-        body: const HomePage(), // Kết nối với trang home của ứng dụng
+      home: const Scaffold(
+        body: HomePage(), // Kết nối với trang home của ứng dụng
       ),
     );
   }
