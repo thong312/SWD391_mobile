@@ -7,7 +7,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Good morning Tri', // Tiêu đề của trang home
           style: TextStyle(
             fontWeight: FontWeight.bold, // Đặt font chữ in đậm
@@ -16,8 +16,8 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
-      body: Center(
-        child: const Text(
+      body: const Center(
+        child: Text(
           'This is not the home page!', // Nội dung của trang home
         ),
       ),
