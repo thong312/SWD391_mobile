@@ -11,26 +11,74 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late Future<List<Map<String, dynamic>>> _groupData;
+  late Future<List<Map<String, dynamic>>> _newsData;
+  late Future<List<Map<String, dynamic>>> _programData;
 
   @override
   void initState() {
     super.initState();
     _groupData = _fetchGroupData();
+    _newsData = _fetchNewsData();
+    _programData = _fetchProgramData();
   }
 
   Future<List<Map<String, dynamic>>> _fetchGroupData() async {
-    final response = await http.get(Uri.parse('https://stem-backend.vercel.app/group'));
+    try {
+      final response = await http.get(Uri.parse('https://stem-backend.vercel.app/group'));
 
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
-      return data.map((group) {
-        return {
-          'GroupName': group['GroupName'],
-          'ProgramName': group['ProgramName'],
-        };
-      }).toList();
-    } else {
-      throw Exception('Failed to load group data');
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        return data.map((group) {
+          return {
+            'GroupName': group['GroupName'],
+            'ProgramName': group['ProgramName'],
+          };
+        }).toList();
+      } else {
+        throw Exception('Failed to load group data');
+      }
+    } catch (e) {
+      throw Exception('Failed to fetch group data: $e');
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> _fetchNewsData() async {
+    try {
+      final response = await http.get(Uri.parse('https://stem-backend.vercel.app/news'));
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        return data.map((news) {
+          return {
+            'Title': news['Title'],
+            'Image': news['Image'],
+          };
+        }).toList();
+      } else {
+        throw Exception('Failed to load news data');
+      }
+    } catch (e) {
+      throw Exception('Failed to fetch news data: $e');
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> _fetchProgramData() async {
+    try {
+      final response = await http.get(Uri.parse('https://stem-backend.vercel.app/program'));
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        return data.map((program) {
+          return {
+            'Name': program['Name'],
+            'Image': program['Image'],
+          };
+        }).toList();
+      } else {
+        throw Exception('Failed to load program data');
+      }
+    } catch (e) {
+      throw Exception('Failed to fetch program data: $e');
     }
   }
 
@@ -47,27 +95,103 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      body: FutureBuilder<List<Map<String, dynamic>>>(
-        future: _groupData,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else {
-            final groupData = snapshot.data!;
-            return ListView.builder(
-              itemCount: groupData.length,
-              itemBuilder: (context, index) {
-                final group = groupData[index];
-                return ListTile(
-                  title: Text(group['GroupName']),
-                  subtitle: Text(group['ProgramName']),
-                );
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              'Group Data',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Flexible(
+            child: FutureBuilder<List<Map<String, dynamic>>>(
+              future: _groupData,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else {
+                  final groupData = snapshot.data!;
+                  return ListView.builder(
+                    itemCount: groupData.length,
+                    itemBuilder: (context, index) {
+                      final group = groupData[index];
+                      return ListTile(
+                        title: Text(group['GroupName']),
+                        subtitle: Text(group['ProgramName']),
+                      );
+                    },
+                  );
+                }
               },
-            );
-          }
-        },
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              'News Data',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Flexible(
+            child: FutureBuilder<List<Map<String, dynamic>>>(
+              future: _newsData,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else {
+                  final newsData = snapshot.data!;
+                  return ListView.builder(
+                    itemCount: newsData.length,
+                    itemBuilder: (context, index) {
+                      final news = newsData[index];
+                      return ListTile(
+                        title: Text(news['Title']),
+                        leading: Image.network(news['Image']),
+                      );
+                    },
+                  );
+                }
+              },
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              'Program Data',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Flexible(
+            child: FutureBuilder<List<Map<String, dynamic>>>(
+              future: _programData,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else {
+                  final programData = snapshot.data!;
+                  return ListView.builder(
+                    itemCount: programData.length,
+                    itemBuilder: (context, index) {
+                      final program = programData[index];
+                      return ListTile(
+                        title: Text(program['Name']),
+                        leading: Image.network(program['Image']),
+                      );
+                    },
+                  );
+                }
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
