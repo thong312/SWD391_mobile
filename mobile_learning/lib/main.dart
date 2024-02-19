@@ -1,3 +1,4 @@
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'pages/home_page.dart';
 import 'pages/news_page.dart';
@@ -5,6 +6,8 @@ import 'pages/program_page.dart';
 import 'pages/profile_page.dart';
 
 void main() {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // Firebase.initializeApp();
   runApp(const MyApp());
 }
 

@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "648270573034",
-    "project_id": "flutter-project-395c2",
-    "storage_bucket": "flutter-project-395c2.appspot.com"
+    "project_number": "44328017284",
+    "project_id": "stem-d72f2",
+    "storage_bucket": "stem-d72f2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:648270573034:android:90a7d47b75af41b8bd1693",
+        "mobilesdk_app_id": "1:44328017284:android:ff6b5e9234acbce8c8d1d1",
         "android_client_info": {
           "package_name": "com.example.mobile_learning"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAC_kxzFTwz44rf3M210yYuBbHjgT3XFVg"
+          "current_key": "AIzaSyB7-mN_r3henJIqgeB0gfftc5UnpgVYQMM"
         }
       ],
       "services": {
