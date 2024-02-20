@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_learning/detail_pages/program.dart';
 import 'dart:convert';
 
 class ProgramPage extends StatefulWidget {
-  const ProgramPage({super.key});
+  const ProgramPage({Key? key});
 
   @override
   _ProgramPageState createState() => _ProgramPageState();
@@ -35,6 +36,19 @@ class _ProgramPageState extends State<ProgramPage> {
     }
   }
 
+  _navigateToDetailPage(BuildContext context, String code, String name, String imageUrl) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProgramDetailPage(
+          code: code,
+          name: name,
+          imageUrl: imageUrl,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,6 +72,14 @@ class _ProgramPageState extends State<ProgramPage> {
                   title: Text(program['Name']),
                   subtitle: Text(program['Code']),
                   leading: Image.network(program['Image']),
+                  onTap: () {
+                    _navigateToDetailPage(
+                      context,
+                      program['Code'],
+                      program['Name'],
+                      program['Image'],
+                    );
+                  },
                 );
               },
             );

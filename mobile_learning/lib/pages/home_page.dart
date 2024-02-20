@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:mobile_learning/detail_pages/news.dart'; // Import NewsDetailPage
+import 'package:mobile_learning/detail_pages/program.dart'; // Import ProgramDetailPage
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -52,6 +54,7 @@ class _HomePageState extends State<HomePage> {
           return {
             'Title': news['Title'],
             'Image': news['Image'],
+            'Detail': news['Detail'],
           };
         }).toList();
       } else {
@@ -71,6 +74,7 @@ class _HomePageState extends State<HomePage> {
         return data.map((program) {
           return {
             'Name': program['Name'],
+            'Code': program['Code'], // Swap Name and Code
             'Image': program['Image'],
           };
         }).toList();
@@ -80,6 +84,34 @@ class _HomePageState extends State<HomePage> {
     } catch (e) {
       throw Exception('Failed to fetch program data: $e');
     }
+  }
+
+  // Function to navigate to NewsDetailPage
+  _navigateToNewsDetailPage(BuildContext context, String title, String detail, String imageUrl) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => NewsDetailPage(
+          title: title,
+          detail: detail,
+          imageUrl: imageUrl,
+        ),
+      ),
+    );
+  }
+
+  // Function to navigate to ProgramDetailPage
+  _navigateToProgramDetailPage(BuildContext context, String name, String code, String imageUrl) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProgramDetailPage(
+          name: name,
+          code: code,
+          imageUrl: imageUrl,
+        ),
+      ),
+    );
   }
 
   @override
@@ -153,6 +185,14 @@ class _HomePageState extends State<HomePage> {
                       return ListTile(
                         title: Text(news['Title']),
                         leading: Image.network(news['Image']),
+                        onTap: () {
+                          _navigateToNewsDetailPage(
+                            context,
+                            news['Title'],
+                            news['Detail'],
+                            news['Image'],
+                          );
+                        },
                       );
                     },
                   );
@@ -183,7 +223,16 @@ class _HomePageState extends State<HomePage> {
                       final program = programData[index];
                       return ListTile(
                         title: Text(program['Name']),
+                        subtitle: Text(program['Code']), // Display Code as subtitle
                         leading: Image.network(program['Image']),
+                        onTap: () {
+                          _navigateToProgramDetailPage(
+                            context,
+                            program['Name'],
+                            program['Code'],
+                            program['Image'],
+                          );
+                        },
                       );
                     },
                   );
