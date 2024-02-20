@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_learning/detail_pages/news.dart';
 import 'dart:convert';
+
 
 class NewsPage extends StatelessWidget {
   const NewsPage({super.key});
@@ -20,6 +22,19 @@ class NewsPage extends StatelessWidget {
     } else {
       throw Exception('Failed to load news data');
     }
+  }
+
+  _navigateToDetailPage(BuildContext context, String title, String detail, String imageUrl) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => NewsDetailPage(
+          title: title,
+          detail: detail,
+          imageUrl: imageUrl,
+        ),
+      ),
+    );
   }
 
   @override
@@ -46,6 +61,14 @@ class NewsPage extends StatelessWidget {
                     leading: Image.network(news['Image']),
                     title: Text(news['Title']),
                     subtitle: Text(news['Detail']),
+                    onTap: () {
+                      _navigateToDetailPage(
+                        context,
+                        news['Title'],
+                        news['Detail'],
+                        news['Image'],
+                      );
+                    },
                   ),
                 );
               },
@@ -56,4 +79,3 @@ class NewsPage extends StatelessWidget {
     );
   }
 }
-
