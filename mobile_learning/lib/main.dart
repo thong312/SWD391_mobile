@@ -1,20 +1,31 @@
-// import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'pages/home_page.dart';
 import 'pages/news_page.dart';
 import 'pages/program_page.dart';
 import 'pages/profile_page.dart';
+import 'dart:io';
 
-void main() {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // Firebase.initializeApp();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  Platform.isAndroid
+      ? await Firebase.initializeApp(
+          options: const FirebaseOptions(
+          apiKey: "AIzaSyB7-mN_r3henJIqgeB0gfftc5UnpgVYQMM",
+          appId: "1:44328017284:android:ff6b5e9234acbce8c8d1d1",
+          messagingSenderId: "44328017284",
+          projectId: "stem-d72f2",
+        ))
+      : await Firebase.initializeApp();
+
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
- @override
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter App',
