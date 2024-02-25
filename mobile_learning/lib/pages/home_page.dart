@@ -133,7 +133,7 @@ class _HomePageState extends State<HomePage> {
           const Padding(
             padding: EdgeInsets.all(8.0),
             child: Text(
-              'Group Data',
+              'Group ',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
@@ -164,7 +164,7 @@ class _HomePageState extends State<HomePage> {
           const Padding(
             padding: EdgeInsets.all(8.0),
             child: Text(
-              'News Data',
+              'News ',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
@@ -203,7 +203,7 @@ class _HomePageState extends State<HomePage> {
           const Padding(
             padding: EdgeInsets.all(8.0),
             child: Text(
-              'Program Data',
+              'Program ',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),

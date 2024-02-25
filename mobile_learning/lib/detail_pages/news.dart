@@ -5,7 +5,7 @@ class NewsDetailPage extends StatelessWidget {
   final String detail;
   final String imageUrl;
 
-  const NewsDetailPage({
+  const NewsDetailPage({super.key, 
     required this.title,
     required this.detail,
     required this.imageUrl,
@@ -26,7 +26,7 @@ class NewsDetailPage extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Text(
                 detail,
-                style: TextStyle(fontSize: 18),
+                style: const TextStyle(fontSize: 18),
               ),
             ),
           ],

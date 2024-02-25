@@ -5,7 +5,7 @@ class ProgramDetailPage extends StatelessWidget {
   final String name;
   final String imageUrl;
 
-  const ProgramDetailPage({
+  const ProgramDetailPage({super.key, 
     required this.code,
     required this.name,
     required this.imageUrl,
@@ -26,7 +26,7 @@ class ProgramDetailPage extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Text(
                 'Code: $code',
-                style: TextStyle(fontSize: 18),
+                style: const TextStyle(fontSize: 18),
               ),
             ),
           ],
