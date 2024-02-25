@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'pages/home_page.dart';
 import 'pages/news_page.dart';
 import 'pages/program_page.dart';
-import 'pages/profile_page.dart';
+import 'pages/ListStudent_page.dart';
 import 'dart:io';
 
 void main() async {
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/news': (context) => const NewsPage(),
         '/program': (context) => const ProgramPage(),
-        '/profile': (context) => const ProfilePage(),
+        '/Student': (context) => const StudentPage(),
       },
     );
   }
@@ -71,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
           HomePage(), // Content of the first tab
           NewsPage(), // Content of the second tab
           ProgramPage(), // Content of the third tab
-          ProfilePage(), // Content of the fourth tab
+          StudentPage(), // Content of the fourth tab
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -99,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'Profile',
+            label: 'List',
           ),
         ],
       ),
