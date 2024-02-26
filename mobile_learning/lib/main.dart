@@ -72,7 +72,6 @@ class _MyHomePageState extends State<MyHomePage> {
       body: IndexedStack(
         index: _currentIndex,
         children: const [
-          
           HomePage(), // Content of the first tab
           NewsPage(), // Content of the second tab
           ProgramPage(), // Content of the third tab

@@ -3,12 +3,12 @@ import 'package:http/http.dart' as http;
 import 'package:mobile_learning/detail_pages/news.dart';
 import 'dart:convert';
 
-
 class NewsPage extends StatelessWidget {
-  const NewsPage({super.key});
+  const NewsPage({Key? key});
 
   Future<List<Map<String, dynamic>>> _fetchNewsData() async {
-    final response = await http.get(Uri.parse('https://stem-backend.vercel.app/api/v1/news'));
+    final response =
+        await http.get(Uri.parse('https://stem-backend.vercel.app/api/v1/news'));
 
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
@@ -24,7 +24,8 @@ class NewsPage extends StatelessWidget {
     }
   }
 
-  _navigateToDetailPage(BuildContext context, String title, String detail, String imageUrl) {
+  _navigateToDetailPage(BuildContext context, String title, String detail,
+      String imageUrl) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -52,26 +53,41 @@ class NewsPage extends StatelessWidget {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
             final newsData = snapshot.data!;
-            return ListView.builder(
-              itemCount: newsData.length,
-              itemBuilder: (context, index) {
-                final news = newsData[index];
-                return Card(
-                  child: ListTile(
-                    leading: Image.network(news['Image']),
-                    title: Text(news['Title']),
-                    subtitle: Text(news['Detail']),
-                    onTap: () {
-                      _navigateToDetailPage(
-                        context,
-                        news['Title'],
-                        news['Detail'],
-                        news['Image'],
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.network(
+                    'https://www.bnet-tech.com/wp-content/uploads/2021/01/218_2-small.jpg',
+                    width: MediaQuery.of(context).size.width,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: newsData.length,
+                    itemBuilder: (context, index) {
+                      final news = newsData[index];
+                      return Card(
+                        child: ListTile(
+                          leading: Image.network(news['Image']),
+                          title: Text(news['Title']),
+                          subtitle: Text(news['Detail']),
+                          onTap: () {
+                            _navigateToDetailPage(
+                              context,
+                              news['Title'],
+                              news['Detail'],
+                              news['Image'],
+                            );
+                          },
+                        ),
                       );
                     },
                   ),
-                );
-              },
+                ),
+              ],
             );
           }
         },
