@@ -20,7 +20,7 @@ class _ProgramPageState extends State<ProgramPage> {
   }
 
   Future<List<Map<String, dynamic>>> _fetchProgramData() async {
-    final response = await http.get(Uri.parse('https://stem-backend.vercel.app/program'));
+    final response = await http.get(Uri.parse('https://stem-backend.vercel.app/api/v1/programs'));
 
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);

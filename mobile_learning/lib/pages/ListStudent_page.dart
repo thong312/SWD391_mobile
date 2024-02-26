@@ -6,7 +6,7 @@ class StudentPage extends StatelessWidget {
   const StudentPage({Key? key});
 
   Future<List<Student>> _fetchStudentData() async {
-    final response = await http.get(Uri.parse('https://stem-backend.vercel.app/student'));
+    final response = await http.get(Uri.parse('https://stem-backend.vercel.app/api/v1/students'));
 
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
