@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<List<Map<String, dynamic>>> _fetchGroupData() async {
     try {
-      final response = await http.get(Uri.parse('https://stem-backend.vercel.app/group'));
+      final response = await http.get(Uri.parse('https://stem-backend.vercel.app/api/v1/groups'));
 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<List<Map<String, dynamic>>> _fetchNewsData() async {
     try {
-      final response = await http.get(Uri.parse('https://stem-backend.vercel.app/news'));
+      final response = await http.get(Uri.parse('https://stem-backend.vercel.app/api/v1/news'));
 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<List<Map<String, dynamic>>> _fetchProgramData() async {
     try {
-      final response = await http.get(Uri.parse('https://stem-backend.vercel.app/program'));
+      final response = await http.get(Uri.parse('https://stem-backend.vercel.app/api/v1/programs'));
 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);

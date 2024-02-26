@@ -8,7 +8,7 @@ class NewsPage extends StatelessWidget {
   const NewsPage({super.key});
 
   Future<List<Map<String, dynamic>>> _fetchNewsData() async {
-    final response = await http.get(Uri.parse('https://stem-backend.vercel.app/news'));
+    final response = await http.get(Uri.parse('https://stem-backend.vercel.app/api/v1/news'));
 
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);

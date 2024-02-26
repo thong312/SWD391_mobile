@@ -57,17 +57,18 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Flutter App',
+          'STEM',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,
-            color: Colors.white,
+            color: Colors.blueAccent,
           ),
         ),
       ),
       body: IndexedStack(
         index: _currentIndex,
         children: const [
+          
           HomePage(), // Content of the first tab
           NewsPage(), // Content of the second tab
           ProgramPage(), // Content of the third tab
