@@ -5,7 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 class LoginPage extends StatelessWidget {
   final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
 
-  LoginPage({super.key});
+  LoginPage({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +43,18 @@ class LoginPage extends StatelessWidget {
             SnackBar(content: Text('Authentication failed')),
           );
         }
+      } else {
+        // Handle Google Sign-In failure
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Google Sign-In failed')),
+        );
       }
     } catch (error) {
       print('Google Sign-In Error: $error');
+      // Handle Google Sign-In error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Google Sign-In Error')),
+      );
     }
   }
 }

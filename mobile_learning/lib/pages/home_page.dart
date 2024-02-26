@@ -5,7 +5,7 @@ import 'package:mobile_learning/detail_pages/news.dart'; // Import NewsDetailPag
 import 'package:mobile_learning/detail_pages/program.dart'; // Import ProgramDetailPage
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -26,7 +26,8 @@ class _HomePageState extends State<HomePage> {
 
   Future<List<Map<String, dynamic>>> _fetchGroupData() async {
     try {
-      final response = await http.get(Uri.parse('https://stem-backend.vercel.app/api/v1/groups'));
+      final response = await http
+          .get(Uri.parse('https://stem-backend.vercel.app/api/v1/groups'));
 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
@@ -46,7 +47,8 @@ class _HomePageState extends State<HomePage> {
 
   Future<List<Map<String, dynamic>>> _fetchNewsData() async {
     try {
-      final response = await http.get(Uri.parse('https://stem-backend.vercel.app/api/v1/news'));
+      final response = await http
+          .get(Uri.parse('https://stem-backend.vercel.app/api/v1/news'));
 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
@@ -67,7 +69,8 @@ class _HomePageState extends State<HomePage> {
 
   Future<List<Map<String, dynamic>>> _fetchProgramData() async {
     try {
-      final response = await http.get(Uri.parse('https://stem-backend.vercel.app/api/v1/programs'));
+      final response = await http
+          .get(Uri.parse('https://stem-backend.vercel.app/api/v1/programs'));
 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
@@ -86,8 +89,8 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  // Function to navigate to NewsDetailPage
-  _navigateToNewsDetailPage(BuildContext context, String title, String detail, String imageUrl) {
+  void _navigateToNewsDetailPage(
+      BuildContext context, String title, String detail, String imageUrl) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -100,8 +103,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // Function to navigate to ProgramDetailPage
-  _navigateToProgramDetailPage(BuildContext context, String name, String code, String imageUrl) {
+  void _navigateToProgramDetailPage(
+      BuildContext context, String name, String code, String imageUrl) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -118,27 +121,54 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Good morning Tri',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 30,
-            color: Colors.pink,
-          ),
+        flexibleSpace: const Stack(
+          children: [
+            Positioned(
+              bottom: 0,
+              left: 16,
+              child: Text(
+                'Good morning Tri',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
+                  color: Colors.pink,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
-              'Group ',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Your Image',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  Image.network(
+                    'https://www.bnet-tech.com/wp-content/uploads/2021/01/218_2-small.jpg',
+                    width: MediaQuery.of(context).size.width,
+                    fit: BoxFit.cover,
+                  ),
+                ],
+              ),
             ),
-          ),
-          Flexible(
-            child: FutureBuilder<List<Map<String, dynamic>>>(
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Group ',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ),
+            FutureBuilder<List<Map<String, dynamic>>>(
               future: _groupData,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -148,6 +178,8 @@ class _HomePageState extends State<HomePage> {
                 } else {
                   final groupData = snapshot.data!;
                   return ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
                     itemCount: groupData.length,
                     itemBuilder: (context, index) {
                       final group = groupData[index];
@@ -160,16 +192,14 @@ class _HomePageState extends State<HomePage> {
                 }
               },
             ),
-          ),
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
-              'News ',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'News ',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
-          Flexible(
-            child: FutureBuilder<List<Map<String, dynamic>>>(
+            FutureBuilder<List<Map<String, dynamic>>>(
               future: _newsData,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -179,6 +209,8 @@ class _HomePageState extends State<HomePage> {
                 } else {
                   final newsData = snapshot.data!;
                   return ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
                     itemCount: newsData.length,
                     itemBuilder: (context, index) {
                       final news = newsData[index];
@@ -199,16 +231,14 @@ class _HomePageState extends State<HomePage> {
                 }
               },
             ),
-          ),
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
-              'Program ',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Program ',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
-          Flexible(
-            child: FutureBuilder<List<Map<String, dynamic>>>(
+            FutureBuilder<List<Map<String, dynamic>>>(
               future: _programData,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -218,12 +248,15 @@ class _HomePageState extends State<HomePage> {
                 } else {
                   final programData = snapshot.data!;
                   return ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
                     itemCount: programData.length,
                     itemBuilder: (context, index) {
                       final program = programData[index];
                       return ListTile(
                         title: Text(program['Name']),
-                        subtitle: Text(program['Code']), // Display Code as subtitle
+                        subtitle:
+                            Text(program['Code']), // Display Code as subtitle
                         leading: Image.network(program['Image']),
                         onTap: () {
                           _navigateToProgramDetailPage(
@@ -239,8 +272,8 @@ class _HomePageState extends State<HomePage> {
                 }
               },
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
