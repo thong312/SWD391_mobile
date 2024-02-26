@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_learning/api/firebase_api.dart';
 import 'pages/home_page.dart';
 import 'pages/news_page.dart';
 import 'pages/program_page.dart';
@@ -19,6 +20,8 @@ void main() async {
         ))
       : await Firebase.initializeApp();
 
+    await FirebaseApi().initNotification();
+
   runApp(const MyApp());
 }
 
@@ -28,6 +31,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
