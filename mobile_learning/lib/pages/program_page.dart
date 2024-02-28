@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile_learning/detail_pages/program.dart';
 import 'dart:convert';
+import '../detail_pages/program.dart'; // Import trang chi tiết
 
 class ProgramPage extends StatefulWidget {
   const ProgramPage({Key? key});
@@ -29,6 +29,9 @@ class _ProgramPageState extends State<ProgramPage> {
           'Code': program['Code'],
           'Name': program['Name'],
           'Image': program['Image'],
+          'Description': program['Description'],
+          'StartDate': program['StartDate'],
+          'EndDate': program['EndDate'],
         };
       }).toList();
     } else {
@@ -36,7 +39,7 @@ class _ProgramPageState extends State<ProgramPage> {
     }
   }
 
-  _navigateToDetailPage(BuildContext context, String code, String name, String imageUrl) {
+  _navigateToDetailPage(BuildContext context, String code, String name, String imageUrl, String description, String startDate, String endDate) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -44,6 +47,9 @@ class _ProgramPageState extends State<ProgramPage> {
           code: code,
           name: name,
           imageUrl: imageUrl,
+          description: description,
+          startDate: startDate,
+          endDate: endDate,
         ),
       ),
     );
@@ -91,6 +97,9 @@ class _ProgramPageState extends State<ProgramPage> {
                             program['Code'],
                             program['Name'],
                             program['Image'],
+                            program['Description'],
+                            program['StartDate'],
+                            program['EndDate'],
                           );
                         },
                       );

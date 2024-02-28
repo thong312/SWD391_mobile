@@ -79,6 +79,9 @@ class _HomePageState extends State<HomePage> {
             'Name': program['Name'],
             'Code': program['Code'], // Swap Name and Code
             'Image': program['Image'],
+            'Description': program['Description'],
+            'StartDate': program['StartDate'],
+            'EndDate': program['EndDate'],
           };
         }).toList();
       } else {
@@ -104,15 +107,23 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _navigateToProgramDetailPage(
-      BuildContext context, String name, String code, String imageUrl) {
+      BuildContext context,
+      String name,
+      String code,
+      String imageUrl,
+      String description,
+      String startDate,
+      String endDate) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => ProgramDetailPage(
-          name: name,
-          code: code,
-          imageUrl: imageUrl,
-        ),
+            name: name,
+            code: code,
+            imageUrl: imageUrl,
+            description: description,
+            startDate: startDate,
+            endDate: endDate),
       ),
     );
   }
@@ -122,21 +133,21 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: const Stack(
-          // children: [
-          //   Positioned(
-          //     bottom: 0,
-          //     left: 16,
-          //     child: Text(
-          //       'Good morning Tri',
-          //       style: TextStyle(
-          //         fontWeight: FontWeight.bold,
-          //         fontSize: 30,
-          //         color: Colors.pink,
-          //       ),
-          //     ),
-          //   ),
-          // ],
-        ),
+            // children: [
+            //   Positioned(
+            //     bottom: 0,
+            //     left: 16,
+            //     child: Text(
+            //       'Good morning Tri',
+            //       style: TextStyle(
+            //         fontWeight: FontWeight.bold,
+            //         fontSize: 30,
+            //         color: Colors.pink,
+            //       ),
+            //     ),
+            //   ),
+            // ],
+            ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -255,11 +266,13 @@ class _HomePageState extends State<HomePage> {
                         leading: Image.network(program['Image']),
                         onTap: () {
                           _navigateToProgramDetailPage(
-                            context,
-                            program['Name'],
-                            program['Code'],
-                            program['Image'],
-                          );
+                              context,
+                              program['Name'],
+                              program['Code'],
+                              program['Image'],
+                              program['Description'],
+                              program['StartDate'],
+                              program['EndDate']);
                         },
                       );
                     },
