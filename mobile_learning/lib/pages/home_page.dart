@@ -122,20 +122,20 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: const Stack(
-          children: [
-            Positioned(
-              bottom: 0,
-              left: 16,
-              child: Text(
-                'Good morning Tri',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30,
-                  color: Colors.pink,
-                ),
-              ),
-            ),
-          ],
+          // children: [
+          //   Positioned(
+          //     bottom: 0,
+          //     left: 16,
+          //     child: Text(
+          //       'Good morning Tri',
+          //       style: TextStyle(
+          //         fontWeight: FontWeight.bold,
+          //         fontSize: 30,
+          //         color: Colors.pink,
+          //       ),
+          //     ),
+          //   ),
+          // ],
         ),
       ),
       body: SingleChildScrollView(
@@ -147,11 +147,6 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Your Image',
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
                   const SizedBox(height: 8),
                   Image.network(
                     'https://www.bnet-tech.com/wp-content/uploads/2021/01/218_2-small.jpg',
