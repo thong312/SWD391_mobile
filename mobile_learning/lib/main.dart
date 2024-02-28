@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_learning/api/firebase_api.dart';
+// import 'package:mobile_learning/api/firebase_api.dart';
+import 'package:mobile_learning/pages/login_page.dart';
 import 'pages/home_page.dart';
 import 'pages/news_page.dart';
 import 'pages/program_page.dart';
@@ -20,7 +21,7 @@ void main() async {
         ))
       : await Firebase.initializeApp();
 
-    await FirebaseApi().initNotification();
+    //  await FirebaseApi().initNotification();
 
   runApp(const MyApp());
 }
@@ -36,8 +37,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      // home: const MyHomePage(),
+      home: const LogIn(),
       routes: {
+        '/homepage': (context) => const MyHomePage(),
         '/news': (context) => const NewsPage(),
         '/program': (context) => const ProgramPage(),
         '/Student': (context) => const StudentPage(),
@@ -59,16 +62,16 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'STEM',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-            color: Colors.blueAccent,
-          ),
-        ),
-      ),
+      // appBar: AppBar(
+      //   title: const Text(
+      //     'STEM',
+      //     style: TextStyle(
+      //       fontWeight: FontWeight.bold,
+      //       fontSize: 20,
+      //       color: Colors.blueAccent,
+      //     ),
+      //   ),
+      // ),
       body: IndexedStack(
         index: _currentIndex,
         children: const [
