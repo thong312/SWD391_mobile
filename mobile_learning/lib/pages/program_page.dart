@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '../detail_pages/program.dart'; // Import trang chi tiết
+import '../detail_pages/program.dart';
 
 class ProgramPage extends StatefulWidget {
   const ProgramPage({Key? key});
@@ -32,6 +32,7 @@ class _ProgramPageState extends State<ProgramPage> {
           'Description': program['Description'],
           'StartDate': program['StartDate'],
           'EndDate': program['EndDate'],
+          'Id': program['Id'], // Thêm 'Id' vào dữ liệu chương trình
         };
       }).toList();
     } else {
@@ -39,17 +40,18 @@ class _ProgramPageState extends State<ProgramPage> {
     }
   }
 
-  _navigateToDetailPage(BuildContext context, String code, String name, String imageUrl, String description, String startDate, String endDate) {
+  _navigateToDetailPage(BuildContext context, Map<String, dynamic> program) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => ProgramDetailPage(
-          code: code,
-          name: name,
-          imageUrl: imageUrl,
-          description: description,
-          startDate: startDate,
-          endDate: endDate,
+          code: program['Code'],
+          name: program['Name'],
+          imageUrl: program['Image'],
+          description: program['Description'],
+          startDate: program['StartDate'],
+          endDate: program['EndDate'],
+          programId: program['Id'], // Truyền 'Id' của chương trình
         ),
       ),
     );
@@ -94,12 +96,7 @@ class _ProgramPageState extends State<ProgramPage> {
                         onTap: () {
                           _navigateToDetailPage(
                             context,
-                            program['Code'],
-                            program['Name'],
-                            program['Image'],
-                            program['Description'],
-                            program['StartDate'],
-                            program['EndDate'],
+                            program,
                           );
                         },
                       );

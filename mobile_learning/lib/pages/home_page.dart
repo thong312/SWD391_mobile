@@ -82,6 +82,7 @@ class _HomePageState extends State<HomePage> {
             'Description': program['Description'],
             'StartDate': program['StartDate'],
             'EndDate': program['EndDate'],
+             'Id': program['Id'], // Thêm 'Id' vào dữ liệu chương trình
           };
         }).toList();
       } else {
@@ -113,7 +114,8 @@ class _HomePageState extends State<HomePage> {
       String imageUrl,
       String description,
       String startDate,
-      String endDate) {
+      String endDate,
+      int programId) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -123,7 +125,8 @@ class _HomePageState extends State<HomePage> {
             imageUrl: imageUrl,
             description: description,
             startDate: startDate,
-            endDate: endDate),
+            endDate: endDate,
+            programId: programId),
       ),
     );
   }
@@ -272,7 +275,8 @@ class _HomePageState extends State<HomePage> {
                               program['Image'],
                               program['Description'],
                               program['StartDate'],
-                              program['EndDate']);
+                              program['EndDate'],
+                              program['Id']);
                         },
                       );
                     },

@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_learning/detail_pages/labCard.dart';
 import 'dart:convert';
+
 class ProgramDetailPage extends StatelessWidget {
   final String code;
   final String name;
@@ -10,6 +11,7 @@ class ProgramDetailPage extends StatelessWidget {
   final String description;
   final String startDate;
   final String endDate;
+  final int programId; // Thêm trường 'programId'
 
   const ProgramDetailPage({
     Key? key,
@@ -19,27 +21,32 @@ class ProgramDetailPage extends StatelessWidget {
     required this.description,
     required this.startDate,
     required this.endDate,
+    required this.programId, // Nhận 'programId'
   }) : super(key: key);
 
-  Future<List<Map<String, dynamic>>> _fetchLabData() async {
-    final response = await http.get(Uri.parse('https://stem-backend.vercel.app/api/v1/labs'));
+Future<List<Map<String, dynamic>>> _fetchLabData(int programId) async {
+  final String baseUrl = 'https://stem-backend.vercel.app/api/v1/labs/lab-list/labs-in-program';
+  final Uri uri = Uri.parse('$baseUrl?programId=$programId');
+  
+  final response = await http.get(uri);
 
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
-      return data.map((lab) {
-        return {
-          'Code': lab['Code'],
-          'Topic': lab['Topic'],
-          'Description': lab['Description'],
-          'StartDate': lab['StartDate'],
-          'EndDate': lab['EndDate'],
-          'ProgramName': lab['ProgramName'],
-        };
-      }).toList();
-    } else {
-      throw Exception('Failed to load lab data');
-    }
+  if (response.statusCode == 200) {
+    final List<dynamic> data = json.decode(response.body);
+    return data.map((lab) {
+      return {
+        'Code': lab['Code'],
+        'Topic': lab['Topic'],
+        'Description': lab['Description'],
+        'StartDate': lab['StartDate'],
+        'EndDate': lab['EndDate'],
+        'ProgramName': lab['ProgramName'],
+      };
+    }).toList();
+  } else {
+    throw Exception('Failed to load lab data');
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +90,7 @@ class ProgramDetailPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   FutureBuilder<List<Map<String, dynamic>>>(
-                    future: _fetchLabData(),
+                    future: _fetchLabData(programId),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(child: CircularProgressIndicator());
