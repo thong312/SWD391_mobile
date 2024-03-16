@@ -63,19 +63,19 @@ class _ProgramPageState extends State<ProgramPage> {
       appBar: AppBar(
         title: const Text('Program'),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.network(
-                'https://www.bnet-tech.com/wp-content/uploads/2021/01/218_2-small.jpg',
-                width: MediaQuery.of(context).size.width,
-                fit: BoxFit.cover,
-              ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.network(
+              'https://www.bnet-tech.com/wp-content/uploads/2021/01/218_2-small.jpg',
+              width: MediaQuery.of(context).size.width,
+              fit: BoxFit.cover,
             ),
-            FutureBuilder<List<Map<String, dynamic>>>(
+          ),
+          Expanded(
+            child: FutureBuilder<List<Map<String, dynamic>>>(
               future: _programData,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -85,7 +85,6 @@ class _ProgramPageState extends State<ProgramPage> {
                 } else {
                   final programData = snapshot.data!;
                   return ListView.builder(
-                    shrinkWrap: true,
                     itemCount: programData.length,
                     itemBuilder: (context, index) {
                       final program = programData[index];
@@ -105,8 +104,8 @@ class _ProgramPageState extends State<ProgramPage> {
                 }
               },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
