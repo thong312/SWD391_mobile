@@ -25,8 +25,8 @@ class ProgramDetailPage extends StatelessWidget {
   }) : super(key: key);
 
 Future<List<Map<String, dynamic>>> _fetchLabData(int programId) async {
-  final String baseUrl = 'https://stem-backend.vercel.app/api/v1/labs/lab-list/labs-in-program';
-  final Uri uri = Uri.parse('$baseUrl?programId=$programId');
+  const String baseUrl = 'https://stem-backend.vercel.app/api/v1/labs/lab-list/labs-in-program';
+  final Uri uri = Uri.parse('$baseUrl?ProgramId=$programId');
   
   final response = await http.get(uri);
 
