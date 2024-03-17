@@ -2,11 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class StudentPage extends StatelessWidget {
-  const StudentPage({Key? key});
+class StudentPage extends StatefulWidget {
+  const StudentPage({Key? key}) : super(key: key);
 
-  Future<List<Student>> _fetchStudentData() async {
-    final response = await http.get(Uri.parse('https://stem-backend.vercel.app/api/v1/students'));
+  @override
+  _StudentPageState createState() => _StudentPageState();
+}
+
+class _StudentPageState extends State<StudentPage> {
+  late Future<List<Student>> _studentDataFuture;
+  TextEditingController _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _studentDataFuture = _fetchStudentData();
+  }
+
+  Future<List<Student>> _fetchStudentData({String? searchText}) async {
+    String apiUrl = 'https://stem-backend.vercel.app/api/v1/students';
+    if (searchText != null && searchText.isNotEmpty) {
+      apiUrl += '?search=$searchText';
+    }
+
+    final response = await http.get(Uri.parse(apiUrl));
 
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
@@ -26,40 +45,55 @@ class StudentPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Students'),
       ),
-      body: FutureBuilder<List<Student>>(
-        future: _fetchStudentData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else {
-            final studentData = snapshot.data!;
-            return ListView(
-              children: [
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: DataTable(
-                    columns: const [
-                      DataColumn(label: Text('Student Code')),
-                      DataColumn(label: Text('Full Name')),
-                      DataColumn(label: Text('Email')),
-                    ],
-                    rows: studentData
-                        .map(
-                          (student) => DataRow(cells: [
-                            DataCell(Text(student.studentCode)),
-                            DataCell(Text(student.fullName)),
-                            DataCell(Text(student.email)),
-                          ]),
-                        )
-                        .toList(),
-                  ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                labelText: 'Search by name',
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    _studentDataFuture = _fetchStudentData(searchText: _searchController.text);
+                    setState(() {});
+                  },
                 ),
-              ],
-            );
-          }
-        },
+              ),
+              onChanged: (value) {
+                // You can add live search if necessary
+              },
+            ),
+          ),
+          Expanded(
+            child: FutureBuilder<List<Student>>(
+              future: _studentDataFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else {
+                  final List<Student> students = snapshot.data!;
+                  return ListView.builder(
+                    itemCount: students.length,
+                    itemBuilder: (context, index) {
+                      final student = students[index];
+                      return ListTile(
+                        title: Text(student.fullName),
+                        subtitle: Text(student.email),
+                        onTap: () {
+                          _navigateToDetailPage(context, student.studentCode, student.fullName, student.email);
+                        },
+                      );
+                    },
+                  );
+                }
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -84,3 +118,5 @@ class Student {
     );
   }
 }
+
+
