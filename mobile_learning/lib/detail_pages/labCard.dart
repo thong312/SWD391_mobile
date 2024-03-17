@@ -3,6 +3,7 @@ import 'package:mobile_learning/detail_pages/labDetail.dart';
 
 class LabCard extends StatelessWidget {
   final String labCode;
+  final String labImage;
   final String labTopic;
   final String labDescription;
   final String labStartDate;
@@ -12,6 +13,7 @@ class LabCard extends StatelessWidget {
   const LabCard({
     Key? key,
     required this.labCode,
+    required this.labImage,
     required this.labTopic,
     required this.labDescription,
     required this.labStartDate,
@@ -35,6 +37,7 @@ class LabCard extends StatelessWidget {
                 startDate: labStartDate,
                 endDate: labEndDate,
                 programName: labProgramName,
+                image: labImage
               ),
             ),
           );

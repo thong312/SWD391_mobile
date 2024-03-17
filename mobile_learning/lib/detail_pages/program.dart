@@ -35,6 +35,7 @@ Future<List<Map<String, dynamic>>> _fetchLabData(int programId) async {
     return data.map((lab) {
       return {
         'Code': lab['Code'],
+        'Image': lab['Image'],
         'Topic': lab['Topic'],
         'Description': lab['Description'],
         'StartDate': lab['StartDate'],
@@ -102,6 +103,7 @@ Future<List<Map<String, dynamic>>> _fetchLabData(int programId) async {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: labData.map((lab) => LabCard(
                             labCode: lab['Code'],
+                            labImage: lab["Image"],
                             labTopic: lab['Topic'],
                             labDescription: lab['Description'],
                             labStartDate: lab['StartDate'],
