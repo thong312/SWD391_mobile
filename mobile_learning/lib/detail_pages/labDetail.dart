@@ -8,6 +8,7 @@ class LabDetailPage extends StatelessWidget {
   final String startDate;
   final String endDate;
   final String programName;
+  final String image;
 
   const LabDetailPage({
     Key? key,
@@ -17,6 +18,7 @@ class LabDetailPage extends StatelessWidget {
     required this.startDate,
     required this.endDate,
     required this.programName,
+    required this.image
   }) : super(key: key);
 
   @override
@@ -36,7 +38,8 @@ class LabDetailPage extends StatelessWidget {
             ),
             const SizedBox(height: 8),
               Image.network(
-              'https://www.gse.harvard.edu/sites/default/files/banner/1500x750-student-test.jpg',
+              // 'https://www.gse.harvard.edu/sites/default/files/banner/1500x750-student-test.jpg',
+              image,
               width: MediaQuery.of(context).size.width, // Set image width to screen width
               fit: BoxFit.cover, // Scale image to cover entire area
             ),
