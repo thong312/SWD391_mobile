@@ -44,7 +44,7 @@ Future<List<Map<String, dynamic>>> _fetchLabData(int programId) async {
       };
     }).toList();
   } else {
-    throw Exception('Failed to load lab data');
+    throw Exception('Lab not found ');
   }
 }
 
