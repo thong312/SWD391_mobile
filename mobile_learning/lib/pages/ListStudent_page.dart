@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:mobile_learning/detail_pages/listStudent.dart';
 
 class StudentPage extends StatefulWidget {
   const StudentPage({Key? key}) : super(key: key);
@@ -35,9 +36,19 @@ class _StudentPageState extends State<StudentPage> {
     }
   }
 
-  _navigateToDetailPage(BuildContext context, String studentCode, String fullName, String email) {
-    // Implement navigation to detail page
-  }
+ _navigateToDetailPage(BuildContext context, String studentCode, String fullName, String email) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => StudentDetailPage(
+        studentCode: studentCode,
+        fullName: fullName,
+        email: email,
+      ),
+    ),
+  );
+}
+
 
   @override
   Widget build(BuildContext context) {
