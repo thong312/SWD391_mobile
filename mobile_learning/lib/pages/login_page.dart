@@ -1,5 +1,105 @@
+
+// import 'package:flutter/material.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:google_sign_in/google_sign_in.dart';
+
+// class LogIn extends StatefulWidget {
+//   const LogIn({Key? key});
+
+//   @override
+//   State<LogIn> createState() => _LogInState();
+// }
+
+// class _LogInState extends State<LogIn> {
+//   final GoogleSignIn _googleSignIn = GoogleSignIn();
+//   final FirebaseAuth _auth = FirebaseAuth.instance;
+
+//   Future<void> _userLoginWithGoogle() async {
+//     try {
+//       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+//       if (googleUser != null) {
+//         // Lấy thông tin người dùng từ GoogleSignInAccount
+//         final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+//         final String? userEmail = googleUser.email;
+//         final String? userName = googleUser.displayName;
+
+//         // Sử dụng thông tin người dùng tùy theo nhu cầu của bạn
+//         print('User Email: $userEmail');
+//         print('User Name: $userName');
+
+//         // Thực hiện các hành động khác tùy thuộc vào nhu cầu của bạn
+
+//         // Ví dụ: điều hướng đến trang chính của ứng dụng sau khi đăng nhập thành công
+//         Navigator.pushNamed(context, '/homepage');
+//       } else {
+//         // Handle null GoogleSignInAccount
+//         print('GoogleSignInAccount is null');
+//       }
+//     } catch (e) {
+//       print('Error during Google sign in: $e');
+//       // Handle sign in errors
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.white,
+//       body: Container(
+//         child: Column(
+//           children: [
+//             Container(
+//               width: MediaQuery.of(context).size.width,
+//               child: Image.network(
+//                 "https://www.bnet-tech.com/wp-content/uploads/2021/01/218_2-small.jpg",
+//                 fit: BoxFit.cover,
+//               ),
+//             ),
+//             SizedBox(
+//               height: 30.0,
+//             ),
+//             Padding(
+//               padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+//               child: Column(
+//                 children: [
+//                   GestureDetector(
+//                     onTap: () {
+//                       _userLoginWithGoogle();
+//                     },
+//                     child: Container(
+//                       width: MediaQuery.of(context).size.width,
+//                       padding: EdgeInsets.symmetric(vertical: 13.0, horizontal: 30.0),
+//                       decoration: BoxDecoration(
+//                         color: Color(0xFF273671),
+//                         borderRadius: BorderRadius.circular(30),
+//                       ),
+//                       child: Center(
+//                         child: Text(
+//                           "Log In with Google",
+//                           style: TextStyle(
+//                             color: Colors.white,
+//                             fontSize: 22.0,
+//                             fontWeight: FontWeight.w500,
+//                           ),
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//             SizedBox(
+//               height: 20.0,
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_learning/service/auth.dart';
 // import 'package:mobile_learning/pages/home_page.dart';
 
 class LogIn extends StatefulWidget {
@@ -143,6 +243,25 @@ class _LogInState extends State<LogIn> {
             ),
             SizedBox(
               height: 20.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: (){
+                    AuthMethods().signInWithGoogle(context);
+                  },
+                  child: Image.network(
+                    "https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png",
+                    height: 45,
+                    width: 45,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                SizedBox(
+                  width: 30.0,
+                ),
+              ]
             ),
             // GestureDetector(
             //   onTap: (){
