@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-// import 'package:mobile_learning/api/firebase_api.dart';
+import 'package:mobile_learning/api/firebase_api.dart';
 import 'package:mobile_learning/pages/login_page.dart';
 import 'pages/home_page.dart';
 import 'pages/news_page.dart';
@@ -21,7 +21,7 @@ void main() async {
         ))
       : await Firebase.initializeApp();
 
-    //  await FirebaseApi().initNotification();
+     await FirebaseApi().initNotification();
 
   runApp(const MyApp());
 }

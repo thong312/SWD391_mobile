@@ -291,11 +291,13 @@
 //   }
 // }
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:mobile_learning/detail_pages/news.dart'; // Import NewsDetailPage
-import 'package:mobile_learning/detail_pages/program.dart'; // Import ProgramDetailPage
+import 'package:mobile_learning/detail_pages/program.dart';
+import 'package:google_sign_in/google_sign_in.dart'; // Import ProgramDetailPage
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -423,11 +425,18 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+   void signOut() async {
+    await GoogleSignIn().disconnect().then((value) {
+      Navigator.pushNamed(context, '/');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [IconButton(onPressed: signOut, icon: Icon(Icons.logout))],
+        
         flexibleSpace: const Stack(
             // children: [
             //   Positioned(
