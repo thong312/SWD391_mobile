@@ -13,6 +13,7 @@ class StudentPage extends StatefulWidget {
 class _StudentPageState extends State<StudentPage> {
   late Future<List<Student>> _studentDataFuture;
   TextEditingController _searchController = TextEditingController();
+  int _currentPage = 1; // Track current page number
 
   @override
   void initState() {
@@ -20,35 +21,45 @@ class _StudentPageState extends State<StudentPage> {
     _studentDataFuture = _fetchStudentData();
   }
 
-  Future<List<Student>> _fetchStudentData({String? searchText}) async {
-    String apiUrl = 'https://stem-backend.vercel.app/api/v1/students';
+  Future<List<Student>> _fetchStudentData(
+      {String? searchText, int page = 1}) async {
+    String apiUrl =
+        'https://stem-backend.vercel.app/api/v1/students?page=$page';
     if (searchText != null && searchText.isNotEmpty) {
-      apiUrl += '?search=$searchText';
+      apiUrl += '&search=$searchText';
     }
 
     final response = await http.get(Uri.parse(apiUrl));
 
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
-      return data.map((student) => Student.fromJson(student)).toList();
+      final List<Student> students =
+          data.map((student) => Student.fromJson(student)).toList();
+      if (students.isEmpty) {
+        // If no data is returned, we've reached the end of available data
+        // Set max page to the current page
+        return [];
+      }
+      _currentPage = page; // Update current page
+      return students;
     } else {
       throw Exception('Failed to load student data');
     }
   }
 
- _navigateToDetailPage(BuildContext context, String studentCode, String fullName, String email) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => StudentDetailPage(
-        studentCode: studentCode,
-        fullName: fullName,
-        email: email,
+  _navigateToDetailPage(
+      BuildContext context, String studentCode, String fullName, String email) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => StudentDetailPage(
+          studentCode: studentCode,
+          fullName: fullName,
+          email: email,
+        ),
       ),
-    ),
-  );
-}
-
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,21 +71,59 @@ class _StudentPageState extends State<StudentPage> {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                labelText: 'Search by name',
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.search),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _searchController,
+                    decoration: InputDecoration(
+                      labelText: 'Search by name',
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.search),
+                        onPressed: () {
+                          _studentDataFuture = _fetchStudentData(
+                              searchText: _searchController.text);
+                          setState(() {});
+                        },
+                      ),
+                    ),
+                    onChanged: (value) {
+                      // Thử add liveSearch nếu ổn :v
+                    },
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.first_page),
                   onPressed: () {
-                    _studentDataFuture = _fetchStudentData(searchText: _searchController.text);
+                    _currentPage = 1;
+                    _studentDataFuture = _fetchStudentData(
+                        searchText: _searchController.text, page: _currentPage);
                     setState(() {});
                   },
                 ),
-              ),
-              onChanged: (value) {
-                // You can add live search if necessary
-              },
+                IconButton(
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: _currentPage > 1
+                      ? () {
+                          _currentPage--;
+                          _studentDataFuture = _fetchStudentData(
+                              searchText: _searchController.text,
+                              page: _currentPage);
+                          setState(() {});
+                        }
+                      : null,
+                ),
+                Text('Page: $_currentPage'),
+                IconButton(
+                  icon: Icon(Icons.arrow_forward),
+                  onPressed: () {
+                    _currentPage++;
+                    _studentDataFuture = _fetchStudentData(
+                        searchText: _searchController.text, page: _currentPage);
+                    setState(() {});
+                  },
+                ),
+              ],
             ),
           ),
           Expanded(
@@ -95,7 +144,8 @@ class _StudentPageState extends State<StudentPage> {
                         title: Text(student.fullName),
                         subtitle: Text(student.email),
                         onTap: () {
-                          _navigateToDetailPage(context, student.studentCode, student.fullName, student.email);
+                          _navigateToDetailPage(context, student.studentCode,
+                              student.fullName, student.email);
                         },
                       );
                     },
@@ -129,5 +179,3 @@ class Student {
     );
   }
 }
-
-
