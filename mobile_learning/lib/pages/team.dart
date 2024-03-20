@@ -90,11 +90,11 @@ class TeamList extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         margin:
-                            EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                         child: ListTile(
                           title: Text(
                             team['TeamName'],
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
