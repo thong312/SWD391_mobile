@@ -48,7 +48,14 @@ class _StudentPageState extends State<StudentPage> {
   }
 
   _navigateToDetailPage(
-      BuildContext context, String studentCode, String fullName, String email) {
+      BuildContext context,
+      String studentCode,
+      String fullName,
+      String email,
+      int schoolYearId,
+      String classCode,
+      String schoolName,
+      String studentAddress) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -56,6 +63,10 @@ class _StudentPageState extends State<StudentPage> {
           studentCode: studentCode,
           fullName: fullName,
           email: email,
+          schoolYearId: schoolYearId,
+          classCode: classCode,
+          schoolName: schoolName,
+          studentAddress: studentAddress,
         ),
       ),
     );
@@ -144,8 +155,15 @@ class _StudentPageState extends State<StudentPage> {
                         title: Text(student.fullName),
                         subtitle: Text(student.email),
                         onTap: () {
-                          _navigateToDetailPage(context, student.studentCode,
-                              student.fullName, student.email);
+                          _navigateToDetailPage(
+                              context,
+                              student.studentCode,
+                              student.fullName,
+                              student.email,
+                              student.schoolYearId,
+                              student.classCode,
+                              student.schoolName,
+                              student.studentAddress);
                         },
                       );
                     },
@@ -164,11 +182,19 @@ class Student {
   final String studentCode;
   final String fullName;
   final String email;
+  final int schoolYearId;
+  final String classCode;
+  final String schoolName;
+  final String studentAddress;
 
   Student({
     required this.studentCode,
     required this.fullName,
     required this.email,
+    required this.schoolYearId,
+    required this.classCode,
+    required this.schoolName,
+    required this.studentAddress,
   });
 
   factory Student.fromJson(Map<String, dynamic> json) {
@@ -176,6 +202,10 @@ class Student {
       studentCode: json['StudentCode'] ?? '',
       fullName: json['FullName'] ?? '',
       email: json['Email'] ?? '',
+      schoolYearId: json['SchoolYearId'] ?? '',
+      classCode: json['ClassCode'] ?? '',
+      schoolName: json['SchoolName'] ?? '',
+      studentAddress: json['StudentAddress'] ?? '',
     );
   }
 }
