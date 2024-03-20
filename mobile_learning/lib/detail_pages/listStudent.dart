@@ -24,22 +24,22 @@ class StudentDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Student Detail'),
+        title: const Text('Student Detail'),
       ),
       body: Center(
         child: Card(
           elevation: 4,
-          margin: EdgeInsets.all(16),
+          margin: const EdgeInsets.all(16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
           child: Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Full Name:',
                   style: TextStyle(
                     fontSize: 20,
@@ -49,14 +49,14 @@ class StudentDetailPage extends StatelessWidget {
                 ),
                 Text(
                   fullName,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     color:
                         Colors.black87, // Change color to make it more visible
                   ),
                 ),
-                SizedBox(height: 12),
-                Text(
+                const SizedBox(height: 12),
+                const Text(
                   'Email:',
                   style: TextStyle(
                     fontSize: 20,
@@ -66,14 +66,14 @@ class StudentDetailPage extends StatelessWidget {
                 ),
                 Text(
                   email,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     color:
                         Colors.black87, // Change color to make it more visible
                   ),
                 ),
-                SizedBox(height: 12),
-                Text(
+                const SizedBox(height: 12),
+                const Text(
                   'Student Code:',
                   style: TextStyle(
                     fontSize: 20,
@@ -83,14 +83,14 @@ class StudentDetailPage extends StatelessWidget {
                 ),
                 Text(
                   studentCode,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     color:
                         Colors.black87, // Change color to make it more visible
                   ),
                 ),
-                SizedBox(height: 12),
-                Text(
+                const SizedBox(height: 12),
+                const Text(
                   'Years:',
                   style: TextStyle(
                     fontSize: 20,
@@ -100,14 +100,14 @@ class StudentDetailPage extends StatelessWidget {
                 ),
                 Text(
                   '$schoolYearId',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     color:
                         Colors.black87, // Change color to make it more visible
                   ),
                 ),
-                SizedBox(height: 12),
-                Text(
+                const SizedBox(height: 12),
+                const Text(
                   'Class Code:',
                   style: TextStyle(
                     fontSize: 20,
@@ -117,14 +117,14 @@ class StudentDetailPage extends StatelessWidget {
                 ),
                 Text(
                   classCode,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     color:
                         Colors.black87, // Change color to make it more visible
                   ),
                 ),
-                SizedBox(height: 12),
-                Text(
+                const SizedBox(height: 12),
+                const Text(
                   'School Name:',
                   style: TextStyle(
                     fontSize: 20,
@@ -134,14 +134,14 @@ class StudentDetailPage extends StatelessWidget {
                 ),
                 Text(
                   schoolName,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     color:
                         Colors.black87, // Change color to make it more visible
                   ),
                 ),
-                SizedBox(height: 12),
-                Text(
+                const SizedBox(height: 12),
+                const Text(
                   'Student Address:',
                   style: TextStyle(
                     fontSize: 20,
@@ -151,13 +151,13 @@ class StudentDetailPage extends StatelessWidget {
                 ),
                 Text(
                   studentAddress,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     color:
                         Colors.black87, // Change color to make it more visible
                   ),
                 ),
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
               ],
             ),
           ),

@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
   Future<List<Map<String, dynamic>>> _fetchGroupData() async {
     try {
       final response = await http.get(Uri.parse(
-          'https://stem-backend.vercel.app/api/v1/groups/group-list/groups-of-a-teacher?ProgramId=1&TeacherId=1'));
+          'https://stem-backend.vercel.app/api/v1/groups/group-list/groups-of-a-teacher?ProgramId=1&TeacherId=2'));
 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
   Future<List<Map<String, dynamic>>> _fetchProgramData() async {
     try {
       final response = await http.get(Uri.parse(
-          'https://stem-backend.vercel.app/api/v1/programs/program-list/programs-of-a-teacher?TeacherId=1'));
+          'https://stem-backend.vercel.app/api/v1/programs/program-list/programs-of-a-teacher?TeacherId=2'));
 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
@@ -185,9 +185,20 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [IconButton(onPressed: signOut, icon: Icon(Icons.logout))],
-        flexibleSpace: const Stack(),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(40.0),
+        child: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.lightBlue,
+          // Set app bar color
+          actions: [
+            IconButton(
+              onPressed: signOut,
+              icon: const Icon(Icons.logout),
+            )
+          ],
+          flexibleSpace: const Stack(),
+        ),
       ),
       resizeToAvoidBottomInset: false, // Set resizeToAvoidBottomInset to false
       body: SingleChildScrollView(
@@ -211,12 +222,161 @@ class _HomePageState extends State<HomePage> {
             const Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
+                'News ',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Container(
+              height: 200,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: FutureBuilder<List<Map<String, dynamic>>>(
+                  future: _newsData,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    } else {
+                      final newsData = snapshot.data!;
+                      return Row(
+                        children: newsData.map((news) {
+                          return GestureDetector(
+                            onTap: () => _navigateToNewsDetailPage(
+                              context,
+                              news['Title'],
+                              news['Detail'],
+                              news['Image'],
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              child: Card(
+                                elevation: 3,
+                                child: Container(
+                                  width: 200,
+                                  height: 200,
+                                  padding: const EdgeInsets.all(8),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          child: Image.network(
+                                            news['Image'],
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        news['Title'],
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      );
+                    }
+                  },
+                ),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'My Program',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Container(
+              height: 200,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: FutureBuilder<List<Map<String, dynamic>>>(
+                  future: _programData,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    } else {
+                      final programData = snapshot.data!;
+                      return Row(
+                        children: programData.map((program) {
+                          return GestureDetector(
+                            onTap: () => _navigateToTeacherProgramDetailPage(
+                              context,
+                              program['Name'],
+                              program['Image'],
+                              program['Description'],
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              child: Card(
+                                elevation: 3,
+                                child: Container(
+                                  width: 200,
+                                  height: 200,
+                                  padding: const EdgeInsets.all(8),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          child: AspectRatio(
+                                            aspectRatio: 16 / 9,
+                                            child: Image.network(
+                                              program['Image'],
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        program['Name'],
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      );
+                    }
+                  },
+                ),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
                 'My Group ',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
             SizedBox(
-              height: 200, // or any other height as you need
+              height: 100, // or any other height as you need
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: FutureBuilder<List<Map<String, dynamic>>>(
@@ -240,190 +400,29 @@ class _HomePageState extends State<HomePage> {
                               group['TeacherName'],
                             ),
                             child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
                               child: Card(
                                 elevation: 3,
                                 child: Container(
-                                  width: 150,
-                                  height: 150,
-                                  padding: EdgeInsets.all(8),
+                                  width: 125,
+                                  height: 125,
+                                  padding: const EdgeInsets.all(8),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         group['GroupName'],
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 16,
                                         ),
                                       ),
-                                      SizedBox(height: 8),
+                                      const SizedBox(height: 8),
                                       Text(
                                         group['ProgramName'],
-                                        style: TextStyle(fontSize: 14),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                      );
-                    }
-                  },
-                ),
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                'News ',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-            ),
-            Container(
-              height: 250,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: FutureBuilder<List<Map<String, dynamic>>>(
-                  future: _newsData,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      return Center(child: Text('Error: ${snapshot.error}'));
-                    } else {
-                      final newsData = snapshot.data!;
-                      return Row(
-                        children: newsData.map((news) {
-                          return GestureDetector(
-                            onTap: () => _navigateToNewsDetailPage(
-                              context,
-                              news['Title'],
-                              news['Detail'],
-                              news['Image'],
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8),
-                              child: Card(
-                                elevation: 3,
-                                child: Container(
-                                  width: 150,
-                                  height: 200,
-                                  padding: EdgeInsets.all(8),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        news['Title'],
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                      SizedBox(height: 4),
-                                      Expanded(
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          child: Image.network(
-                                            news['Image'],
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(height: 4),
-                                      Text(
-                                        news['Detail'],
-                                        style: TextStyle(fontSize: 14),
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 3,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                      );
-                    }
-                  },
-                ),
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                'My Program',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-            ),
-            Container(
-              height: 250,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: FutureBuilder<List<Map<String, dynamic>>>(
-                  future: _programData,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      return Center(child: Text('Error: ${snapshot.error}'));
-                    } else {
-                      final programData = snapshot.data!;
-                      return Row(
-                        children: programData.map((program) {
-                          return GestureDetector(
-                            onTap: () => _navigateToTeacherProgramDetailPage(
-                              context,
-                              program['Name'],
-                              // program['Code'],
-                              program['Image'],
-                              program['Description'],
-                              // program['StartDate'],
-                              // program['EndDate'],
-                              // program['Id'],
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8),
-                              child: Card(
-                                elevation: 3,
-                                child: Container(
-                                  width: 150,
-                                  height: 200,
-                                  padding: EdgeInsets.all(8),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        program['Name'],
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                      SizedBox(height: 4),
-                                      Expanded(
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          child: Image.network(
-                                            program['Image'],
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(height: 4),
-                                      Text(
-                                        program['Description'],
-                                        style: TextStyle(fontSize: 14),
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 3,
+                                        style: const TextStyle(fontSize: 14),
                                       ),
                                     ],
                                   ),

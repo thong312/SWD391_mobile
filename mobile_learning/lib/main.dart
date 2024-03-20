@@ -2,10 +2,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_learning/api/firebase_api.dart';
 import 'package:mobile_learning/pages/login_page.dart';
+import 'package:mobile_learning/pages/team.dart';
 import 'pages/home_page.dart';
 import 'pages/news_page.dart';
 import 'pages/program_page.dart';
-import 'pages/ListStudent_page.dart';
+// import 'pages/ListStudent_page.dart';
 import 'dart:io';
 
 void main() async {
@@ -43,7 +44,8 @@ class MyApp extends StatelessWidget {
         '/homepage': (context) => const MyHomePage(),
         '/news': (context) => const NewsPage(),
         '/program': (context) => const ProgramPage(),
-        '/Student': (context) => const StudentPage(),
+        // '/Student': (context) => const StudentPage(),
+        '/Team': (context) => const TeamList(),
       },
     );
   }
@@ -78,7 +80,8 @@ class _MyHomePageState extends State<MyHomePage> {
           HomePage(), // Content of the first tab
           NewsPage(), // Content of the second tab
           ProgramPage(), // Content of the third tab
-          StudentPage(), // Content of the fourth tab
+          // StudentPage(), // Content of the fourth tab
+          TeamList(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -105,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
             label: 'Program',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.group),
             label: 'List',
           ),
         ],

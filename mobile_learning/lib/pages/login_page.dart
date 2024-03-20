@@ -1,102 +1,3 @@
-
-// import 'package:flutter/material.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
-
-// class LogIn extends StatefulWidget {
-//   const LogIn({Key? key});
-
-//   @override
-//   State<LogIn> createState() => _LogInState();
-// }
-
-// class _LogInState extends State<LogIn> {
-//   final GoogleSignIn _googleSignIn = GoogleSignIn();
-//   final FirebaseAuth _auth = FirebaseAuth.instance;
-
-//   Future<void> _userLoginWithGoogle() async {
-//     try {
-//       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-//       if (googleUser != null) {
-//         // Lấy thông tin người dùng từ GoogleSignInAccount
-//         final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-//         final String? userEmail = googleUser.email;
-//         final String? userName = googleUser.displayName;
-
-//         // Sử dụng thông tin người dùng tùy theo nhu cầu của bạn
-//         print('User Email: $userEmail');
-//         print('User Name: $userName');
-
-//         // Thực hiện các hành động khác tùy thuộc vào nhu cầu của bạn
-
-//         // Ví dụ: điều hướng đến trang chính của ứng dụng sau khi đăng nhập thành công
-//         Navigator.pushNamed(context, '/homepage');
-//       } else {
-//         // Handle null GoogleSignInAccount
-//         print('GoogleSignInAccount is null');
-//       }
-//     } catch (e) {
-//       print('Error during Google sign in: $e');
-//       // Handle sign in errors
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       body: Container(
-//         child: Column(
-//           children: [
-//             Container(
-//               width: MediaQuery.of(context).size.width,
-//               child: Image.network(
-//                 "https://www.bnet-tech.com/wp-content/uploads/2021/01/218_2-small.jpg",
-//                 fit: BoxFit.cover,
-//               ),
-//             ),
-//             SizedBox(
-//               height: 30.0,
-//             ),
-//             Padding(
-//               padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-//               child: Column(
-//                 children: [
-//                   GestureDetector(
-//                     onTap: () {
-//                       _userLoginWithGoogle();
-//                     },
-//                     child: Container(
-//                       width: MediaQuery.of(context).size.width,
-//                       padding: EdgeInsets.symmetric(vertical: 13.0, horizontal: 30.0),
-//                       decoration: BoxDecoration(
-//                         color: Color(0xFF273671),
-//                         borderRadius: BorderRadius.circular(30),
-//                       ),
-//                       child: Center(
-//                         child: Text(
-//                           "Log In with Google",
-//                           style: TextStyle(
-//                             color: Colors.white,
-//                             fontSize: 22.0,
-//                             fontWeight: FontWeight.w500,
-//                           ),
-//                         ),
-//                       ),
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//             SizedBox(
-//               height: 20.0,
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_learning/service/auth.dart';
@@ -110,34 +11,34 @@ class LogIn extends StatefulWidget {
 }
 
 class _LogInState extends State<LogIn> {
-
-  String email="", password="";
+  String email = "", password = "";
   TextEditingController mailcontroller = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
 
   final _formkey = GlobalKey<FormState>();
 
-  userLogin()async{
-    try{
-      await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+  userLogin() async {
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
       // Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage() ));
       Navigator.pushNamed(context, '/homepage');
-    }on FirebaseAuthException catch(e){
-      if(e.code=='user-not-found'){
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             backgroundColor: Colors.orangeAccent,
             content: Text(
               "No User Found for that Email",
               style: TextStyle(fontSize: 18.0),
             )));
-    }else if(e.code=='wrong-password'){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: Colors.orangeAccent,
-          content: Text(
-            "Wrong Password Provided by User",
-            style: TextStyle(fontSize: 18.0),
-          )));
-    }
+      } else if (e.code == 'wrong-password') {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            backgroundColor: Colors.orangeAccent,
+            content: Text(
+              "Wrong Password Provided by User",
+              style: TextStyle(fontSize: 18.0),
+            )));
+      }
     }
   }
 
@@ -154,7 +55,7 @@ class _LogInState extends State<LogIn> {
                   "https://www.bnet-tech.com/wp-content/uploads/2021/01/218_2-small.jpg",
                   fit: BoxFit.cover,
                 )),
-            SizedBox(
+            const SizedBox(
               height: 30.0,
             ),
             Padding(
@@ -165,9 +66,9 @@ class _LogInState extends State<LogIn> {
                   children: [
                     Container(
                       padding:
-                          EdgeInsets.symmetric(vertical: 2.0, horizontal: 30.0),
+                          const EdgeInsets.symmetric(vertical: 2.0, horizontal: 30.0),
                       decoration: BoxDecoration(
-                          color: Color(0xFFedf0f8),
+                          color: const Color(0xFFedf0f8),
                           borderRadius: BorderRadius.circular(30)),
                       child: TextFormField(
                         validator: (value) {
@@ -177,21 +78,21 @@ class _LogInState extends State<LogIn> {
                           return null;
                         },
                         controller: mailcontroller,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: "Email",
                             hintStyle: TextStyle(
                                 color: Color(0xFFb2b7bf), fontSize: 18.0)),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30.0,
                     ),
                     Container(
                       padding:
-                          EdgeInsets.symmetric(vertical: 2.0, horizontal: 30.0),
+                          const EdgeInsets.symmetric(vertical: 2.0, horizontal: 30.0),
                       decoration: BoxDecoration(
-                          color: Color(0xFFedf0f8),
+                          color: const Color(0xFFedf0f8),
                           borderRadius: BorderRadius.circular(30)),
                       child: TextFormField(
                         controller: passwordcontroller,
@@ -201,34 +102,35 @@ class _LogInState extends State<LogIn> {
                           }
                           return null;
                         },
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: "Password",
                             hintStyle: TextStyle(
                                 color: Color(0xFFb2b7bf), fontSize: 18.0)),
-                   obscureText: true,   ),
+                        obscureText: true,
+                      ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30.0,
                     ),
                     GestureDetector(
-                      onTap: (){
-                        if(_formkey.currentState!.validate()){
+                      onTap: () {
+                        if (_formkey.currentState!.validate()) {
                           setState(() {
-                            email= mailcontroller.text;
-                            password=passwordcontroller.text;
+                            email = mailcontroller.text;
+                            password = passwordcontroller.text;
                           });
                         }
                         userLogin();
                       },
                       child: Container(
                           width: MediaQuery.of(context).size.width,
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                               vertical: 13.0, horizontal: 30.0),
                           decoration: BoxDecoration(
-                              color: Color(0xFF273671),
+                              color: const Color(0xFF273671),
                               borderRadius: BorderRadius.circular(30)),
-                          child: Center(
+                          child: const Center(
                               child: Text(
                             "Log In",
                             style: TextStyle(
@@ -241,28 +143,46 @@ class _LogInState extends State<LogIn> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20.0,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GestureDetector(
-                  onTap: (){
-                    AuthMethods().signInWithGoogle(context);
-                  },
-                  child: Image.network(
-                    "https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png",
-                    height: 45,
-                    width: 45,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                SizedBox(
-                  width: 30.0,
-                ),
-              ]
+            const Text(
+              "or LogIn with",
+              style: TextStyle(
+                  color: Color(0xFF273671),
+                  fontSize: 22.0,
+                  fontWeight: FontWeight.w500),
             ),
+            const SizedBox(
+              height: 30.0,
+            ),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              GestureDetector(
+                onTap: () {
+                  AuthMethods().signInWithGoogle(context);
+                },
+                child: Image.network(
+                  "https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png",
+                  height: 50,
+                  width: 50,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              const SizedBox(
+                width: 30.0,
+              ),
+              GestureDetector(
+                child: Image.network(
+                  "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1024px-Facebook_Logo_%282019%29.png",
+                  height: 45,
+                  width: 45,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              const SizedBox(
+                width: 30.0,
+              ),
+            ]),
             // GestureDetector(
             //   onTap: (){
             //     Navigator.push(context, MaterialPageRoute(builder: (context)=> ForgotPassword()));
