@@ -41,6 +41,7 @@ class _HomePageState extends State<HomePage> {
             'TeacherCode': group['TeacherCode'],
             'TeacherName': group['TeacherName'],
             'GroupCode': group['GroupCode'],
+            'ProgramId': group['ProgramId']
           };
         }).toList();
       } else {
@@ -57,7 +58,8 @@ class _HomePageState extends State<HomePage> {
       String groupName,
       String groupCode,
       String teacherCode,
-      String teacherName) {
+      String teacherName,
+      int id) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -67,6 +69,7 @@ class _HomePageState extends State<HomePage> {
           groupCode: groupCode,
           teacherCode: teacherCode,
           teacherName: teacherName,
+          groupId: id,
         ),
       ),
     );
@@ -107,6 +110,7 @@ class _HomePageState extends State<HomePage> {
             // 'Code': program['Code'], // Swap Name and Code
             'Image': program['Image'],
             'Description': program['Description'],
+            'ProgramId' : program["ProgramId"] // thêm trường id 
             // 'StartDate': program['StartDate'],
             // 'EndDate': program['EndDate'],
             // 'Id': program['Id'], // Thêm 'Id' vào dữ liệu chương trình
@@ -125,6 +129,7 @@ class _HomePageState extends State<HomePage> {
     String name,
     String image,
     String description,
+    int programId,
   ) {
     Navigator.push(
       context,
@@ -133,6 +138,7 @@ class _HomePageState extends State<HomePage> {
           name: name,
           image: image,
           description: description,
+          programId: programId,
         ),
       ),
     );
@@ -171,7 +177,8 @@ class _HomePageState extends State<HomePage> {
             description: description,
             startDate: startDate,
             endDate: endDate,
-            programId: programId),
+            programId: programId,
+            ),
       ),
     );
   }
@@ -186,7 +193,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(40.0),
+        preferredSize: Size.fromHeight(45.0),
         child: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: Colors.lightBlue,
@@ -320,6 +327,7 @@ class _HomePageState extends State<HomePage> {
                               program['Name'],
                               program['Image'],
                               program['Description'],
+                              program['ProgramId'] // thêm id 
                             ),
                             child: Padding(
                               padding:
@@ -368,75 +376,76 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                'My Group ',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-            ),
-            SizedBox(
-              height: 100, // or any other height as you need
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: FutureBuilder<List<Map<String, dynamic>>>(
-                  future: _groupData,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      return Center(child: Text('Error: ${snapshot.error}'));
-                    } else {
-                      final groupData = snapshot.data!;
-                      return Row(
-                        children: groupData.map((group) {
-                          return GestureDetector(
-                            onTap: () => _navigateToGroupDetailPage(
-                              context,
-                              group['ProgramName'],
-                              group['GroupName'],
-                              group['GroupCode'],
-                              group['TeacherCode'],
-                              group['TeacherName'],
-                            ),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
-                              child: Card(
-                                elevation: 3,
-                                child: Container(
-                                  width: 125,
-                                  height: 125,
-                                  padding: const EdgeInsets.all(8),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        group['GroupName'],
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        group['ProgramName'],
-                                        style: const TextStyle(fontSize: 14),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                      );
-                    }
-                  },
-                ),
-              ),
-            ),
+            // const Padding(
+            //   padding: EdgeInsets.all(8.0),
+            //   child: Text(
+            //     'My Group ',
+            //     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            //   ),
+            // ),
+            // SizedBox(
+            //   height: 100, // or any other height as you need
+            //   child: SingleChildScrollView(
+            //     scrollDirection: Axis.horizontal,
+            //     child: FutureBuilder<List<Map<String, dynamic>>>(
+            //       future: _groupData,
+            //       builder: (context, snapshot) {
+            //         if (snapshot.connectionState == ConnectionState.waiting) {
+            //           return const Center(child: CircularProgressIndicator());
+            //         } else if (snapshot.hasError) {
+            //           return Center(child: Text('Error: ${snapshot.error}'));
+            //         } else {
+            //           final groupData = snapshot.data!;
+            //           return Row(
+            //             children: groupData.map((group) {
+            //               return GestureDetector(
+            //                 onTap: () => _navigateToGroupDetailPage(
+            //                   context,
+            //                   group['ProgramName'],
+            //                   group['GroupName'],
+            //                   group['GroupCode'],
+            //                   group['TeacherCode'],
+            //                   group['TeacherName'],
+            //                   group['ProgramId'],
+            //                 ),
+            //                 child: Padding(
+            //                   padding:
+            //                       const EdgeInsets.symmetric(horizontal: 8),
+            //                   child: Card(
+            //                     elevation: 3,
+            //                     child: Container(
+            //                       width: 125,
+            //                       height: 125,
+            //                       padding: const EdgeInsets.all(8),
+            //                       child: Column(
+            //                         crossAxisAlignment:
+            //                             CrossAxisAlignment.start,
+            //                         children: [
+            //                           Text(
+            //                             group['GroupName'],
+            //                             style: const TextStyle(
+            //                               fontWeight: FontWeight.bold,
+            //                               fontSize: 16,
+            //                             ),
+            //                           ),
+            //                           const SizedBox(height: 8),
+            //                           Text(
+            //                             group['ProgramName'],
+            //                             style: const TextStyle(fontSize: 14),
+            //                           ),
+            //                         ],
+            //                       ),
+            //                     ),
+            //                   ),
+            //                 ),
+            //               );
+            //             }).toList(),
+            //           );
+            //         }
+            //       },
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

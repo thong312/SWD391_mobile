@@ -8,6 +8,7 @@ class GroupDetailPage extends StatelessWidget {
   final String groupCode;
   final String teacherCode;
   final String teacherName;
+  final int groupId;
 
   const GroupDetailPage({
     Key? key,
@@ -16,11 +17,16 @@ class GroupDetailPage extends StatelessWidget {
     required this.groupCode,
     required this.teacherCode,
     required this.teacherName,
+    required this.groupId,
   }) : super(key: key);
 
   Future<List<Map<String, dynamic>>> _fetchMemberData(int groupId) async {
-    final response = await http.get(Uri.parse(
-        'https://stem-backend.vercel.app/api/v1/members/member-in-group?GroupId=2'));
+    const String baseUrl =
+        'https://stem-backend.vercel.app/api/v1/members/member-in-group';
+
+    final Uri uri = Uri.parse('$baseUrl?GroupId=$groupId');
+
+    final response = await http.get(uri);
 
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
@@ -64,7 +70,6 @@ class GroupDetailPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildInfoItem('Program Name:', programName),
                       _buildInfoItem('Group Name:', groupName),
                       _buildInfoItem('Group Code:', groupCode),
                       _buildInfoItem('Teacher Code:', teacherCode),
@@ -85,7 +90,7 @@ class GroupDetailPage extends StatelessWidget {
                                         0.4, // 40% of screen height
                                     child: FutureBuilder<
                                         List<Map<String, dynamic>>>(
-                                      future: _fetchMemberData(1),
+                                      future: _fetchMemberData(groupId),
                                       builder: (context, snapshot) {
                                         if (snapshot.connectionState ==
                                             ConnectionState.waiting) {

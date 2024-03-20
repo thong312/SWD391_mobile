@@ -10,16 +10,16 @@ class LabDetailPage extends StatelessWidget {
   final String programName;
   final String image;
 
-  const LabDetailPage(
-      {Key? key,
-      required this.code,
-      required this.topic,
-      required this.description,
-      required this.startDate,
-      required this.endDate,
-      required this.programName,
-      required this.image})
-      : super(key: key);
+  const LabDetailPage({
+    Key? key,
+    required this.code,
+    required this.topic,
+    required this.description,
+    required this.startDate,
+    required this.endDate,
+    required this.programName,
+    required this.image,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +40,9 @@ class LabDetailPage extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  const Text(
+                  Text(
                     'Lab Code:',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.blue),
                   ),
                   const SizedBox(width: 8),
                   Text(
@@ -57,15 +57,14 @@ class LabDetailPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               child: Image.network(
                 image,
-                width: MediaQuery.of(context).size.width,
-                height: 200,
+                width: double.infinity,
                 fit: BoxFit.cover,
               ),
             ),
             const SizedBox(height: 16),
             const Text(
               'Topic:',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.blue),
             ),
             const SizedBox(height: 8),
             Text(
@@ -75,7 +74,7 @@ class LabDetailPage extends StatelessWidget {
             const SizedBox(height: 16),
             const Text(
               'Description:',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.blue),
             ),
             const SizedBox(height: 8),
             Text(
@@ -85,7 +84,7 @@ class LabDetailPage extends StatelessWidget {
             const SizedBox(height: 16),
             const Text(
               'Start Date:',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.blue),
             ),
             const SizedBox(height: 8),
             Text(
@@ -95,7 +94,7 @@ class LabDetailPage extends StatelessWidget {
             const SizedBox(height: 16),
             const Text(
               'End Date:',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.blue),
             ),
             const SizedBox(height: 8),
             Text(
@@ -105,7 +104,7 @@ class LabDetailPage extends StatelessWidget {
             const SizedBox(height: 16),
             const Text(
               'Program Name:',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.blue),
             ),
             const SizedBox(height: 8),
             Text(

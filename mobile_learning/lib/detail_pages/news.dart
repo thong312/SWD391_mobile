@@ -21,7 +21,9 @@ class NewsDetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(imageUrl),
+            Image.network(imageUrl,
+            width: double.infinity,
+                fit: BoxFit.cover,),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(

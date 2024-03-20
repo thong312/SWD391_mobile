@@ -85,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.white,
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.black.withOpacity(0.6),
         currentIndex: _currentIndex,
@@ -107,10 +107,10 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: Icon(Icons.event),
             label: 'Program',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.group),
-            label: 'List',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.group),
+          //   label: 'List',
+          // ),
         ],
       ),
     );

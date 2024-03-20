@@ -11,7 +11,7 @@ class LabCard extends StatelessWidget {
   final String labProgramName;
 
   const LabCard({
-    Key? key,
+    super.key,
     required this.labCode,
     required this.labImage,
     required this.labTopic,
@@ -19,7 +19,7 @@ class LabCard extends StatelessWidget {
     required this.labStartDate,
     required this.labEndDate,
     required this.labProgramName,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
