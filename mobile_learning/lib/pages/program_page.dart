@@ -62,7 +62,8 @@ class _ProgramPageState extends State<ProgramPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Programs'),
+        automaticallyImplyLeading: false,
+        title: const Text('Programs', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,14 +73,14 @@ class _ProgramPageState extends State<ProgramPage> {
             width: double.infinity,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(
+                image: const NetworkImage(
                     'https://www.bnet-tech.com/wp-content/uploads/2021/01/218_2-small.jpg'),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
                     Colors.black.withOpacity(0.5), BlendMode.darken),
               ),
             ),
-            child: Center(
+            child: const Center(
               child: Text(
                 'Explore Programs',
                 style: TextStyle(
@@ -95,7 +96,7 @@ class _ProgramPageState extends State<ProgramPage> {
               future: _programData,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else {
@@ -110,7 +111,7 @@ class _ProgramPageState extends State<ProgramPage> {
                         },
                         child: Card(
                           elevation: 4.0,
-                          margin: EdgeInsets.all(8.0),
+                          margin: const EdgeInsets.all(8.0),
                           color: Colors.blueGrey[50], // Adjust card color
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -128,7 +129,7 @@ class _ProgramPageState extends State<ProgramPage> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(width: 10.0),
+                                const SizedBox(width: 10.0),
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment:
@@ -136,12 +137,12 @@ class _ProgramPageState extends State<ProgramPage> {
                                     children: [
                                       Text(
                                         program['Name'],
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 18.0,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      SizedBox(height: 4.0),
+                                      const SizedBox(height: 4.0),
                                       Text(
                                         program['Code'],
                                         style: TextStyle(
@@ -149,7 +150,7 @@ class _ProgramPageState extends State<ProgramPage> {
                                           color: Colors.grey[600],
                                         ),
                                       ),
-                                      SizedBox(height: 8.0),
+                                      const SizedBox(height: 8.0),
                                       Text(
                                         program['Description'],
                                         maxLines: 2,

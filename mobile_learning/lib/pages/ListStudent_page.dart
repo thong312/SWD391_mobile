@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:mobile_learning/detail_pages/listStudent.dart';
 
 class StudentPage extends StatefulWidget {
-  const StudentPage({Key? key}) : super(key: key);
+  const StudentPage({super.key});
 
   @override
   _StudentPageState createState() => _StudentPageState();
@@ -12,7 +12,7 @@ class StudentPage extends StatefulWidget {
 
 class _StudentPageState extends State<StudentPage> {
   late Future<List<Student>> _studentDataFuture;
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   int _currentPage = 1; // Track current page number
 
   @override
@@ -90,7 +90,7 @@ class _StudentPageState extends State<StudentPage> {
                     decoration: InputDecoration(
                       labelText: 'Search by name',
                       suffixIcon: IconButton(
-                        icon: Icon(Icons.search),
+                        icon: const Icon(Icons.search),
                         onPressed: () {
                           _studentDataFuture = _fetchStudentData(
                               searchText: _searchController.text);
@@ -104,7 +104,7 @@ class _StudentPageState extends State<StudentPage> {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.first_page),
+                  icon: const Icon(Icons.first_page),
                   onPressed: () {
                     _currentPage = 1;
                     _studentDataFuture = _fetchStudentData(
@@ -113,7 +113,7 @@ class _StudentPageState extends State<StudentPage> {
                   },
                 ),
                 IconButton(
-                  icon: Icon(Icons.arrow_back),
+                  icon: const Icon(Icons.arrow_back),
                   onPressed: _currentPage > 1
                       ? () {
                           _currentPage--;
@@ -126,7 +126,7 @@ class _StudentPageState extends State<StudentPage> {
                 ),
                 Text('Page: $_currentPage'),
                 IconButton(
-                  icon: Icon(Icons.arrow_forward),
+                  icon: const Icon(Icons.arrow_forward),
                   onPressed: () {
                     _currentPage++;
                     _studentDataFuture = _fetchStudentData(

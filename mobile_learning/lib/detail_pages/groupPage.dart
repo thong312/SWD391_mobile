@@ -20,7 +20,7 @@ class GroupDetailPage extends StatelessWidget {
 
   Future<List<Map<String, dynamic>>> _fetchMemberData(int groupId) async {
     final response = await http.get(Uri.parse(
-        'https://stem-backend.vercel.app/api/v1/members/member-in-group?GroupId=1'));
+        'https://stem-backend.vercel.app/api/v1/members/member-in-group?GroupId=2'));
 
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
@@ -39,11 +39,11 @@ class GroupDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Group Detail'),
+        title: const Text('Group Detail'),
       ),
       body: Center(
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Card(
             elevation: 4,
             shape: RoundedRectangleBorder(
@@ -60,7 +60,7 @@ class GroupDetailPage extends StatelessWidget {
                   height: 200,
                 ),
                 Padding(
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -69,7 +69,7 @@ class GroupDetailPage extends StatelessWidget {
                       _buildInfoItem('Group Code:', groupCode),
                       _buildInfoItem('Teacher Code:', teacherCode),
                       _buildInfoItem('Teacher Name:', teacherName),
-                      SizedBox(height: 12),
+                      const SizedBox(height: 12),
                       ElevatedButton(
                         onPressed: () {
                           showDialog(
@@ -77,7 +77,7 @@ class GroupDetailPage extends StatelessWidget {
                             builder: (BuildContext context) {
                               return Center(
                                 child: AlertDialog(
-                                  title: Text('Members'),
+                                  title: const Text('Members'),
                                   content: SizedBox(
                                     width: MediaQuery.of(context).size.width *
                                         0.8, // 80% of screen width
@@ -89,7 +89,7 @@ class GroupDetailPage extends StatelessWidget {
                                       builder: (context, snapshot) {
                                         if (snapshot.connectionState ==
                                             ConnectionState.waiting) {
-                                          return Center(
+                                          return const Center(
                                             child: CircularProgressIndicator(),
                                           );
                                         } else if (snapshot.hasError) {
@@ -116,7 +116,7 @@ class GroupDetailPage extends StatelessWidget {
                             },
                           );
                         },
-                        child: Text('View Members'),
+                        child: const Text('View Members'),
                       ),
                     ],
                   ),
@@ -135,7 +135,7 @@ class GroupDetailPage extends StatelessWidget {
       children: [
         Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
             color: Colors.blue,
@@ -143,12 +143,12 @@ class GroupDetailPage extends StatelessWidget {
         ),
         Text(
           value,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 18,
             color: Colors.black87,
           ),
         ),
-        SizedBox(height: 12),
+        const SizedBox(height: 12),
       ],
     );
   }
@@ -159,20 +159,20 @@ class GroupDetailPage extends StatelessWidget {
       children: [
         Text(
           'Name: $name',
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 18,
             color: Colors.black87,
           ),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Text(
           'Code: $code',
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 18,
             color: Colors.black87,
           ),
         ),
-        SizedBox(height: 12),
+        const SizedBox(height: 12),
       ],
     );
   }

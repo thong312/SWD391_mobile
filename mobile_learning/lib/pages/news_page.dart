@@ -42,13 +42,17 @@ class NewsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('News'),
+        automaticallyImplyLeading: false,
+        title: Text(
+          'News',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _fetchNewsData(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
@@ -56,12 +60,27 @@ class NewsPage extends StatelessWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Image.network(
-                    'https://www.bnet-tech.com/wp-content/uploads/2021/01/218_2-small.jpg',
-                    width: MediaQuery.of(context).size.width,
-                    fit: BoxFit.cover,
+                Container(
+                  height: 150,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: const NetworkImage(
+                          'https://www.bnet-tech.com/wp-content/uploads/2021/01/218_2-small.jpg'),
+                      fit: BoxFit.cover,
+                      colorFilter: ColorFilter.mode(
+                          Colors.black.withOpacity(0.5), BlendMode.darken),
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Explore News',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
                 Expanded(
@@ -70,10 +89,34 @@ class NewsPage extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final news = newsData[index];
                       return Card(
+                        elevation: 4,
+                        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         child: ListTile(
-                          leading: Image.network(news['Image']),
-                          title: Text(news['Title']),
-                          subtitle: Text(news['Detail']),
+                          contentPadding: EdgeInsets.all(16),
+                          leading: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.network(
+                              news['Image'],
+                              width: 80,
+                              height: 80,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          title: Text(
+                            news['Title'],
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          subtitle: Text(
+                            news['Detail'],
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                           onTap: () {
                             _navigateToDetailPage(
                               context,
