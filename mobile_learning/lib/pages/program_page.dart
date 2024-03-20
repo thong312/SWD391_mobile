@@ -20,7 +20,8 @@ class _ProgramPageState extends State<ProgramPage> {
   }
 
   Future<List<Map<String, dynamic>>> _fetchProgramData() async {
-    final response = await http.get(Uri.parse('https://stem-backend.vercel.app/api/v1/programs'));
+    final response = await http
+        .get(Uri.parse('https://stem-backend.vercel.app/api/v1/programs'));
 
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
@@ -32,7 +33,7 @@ class _ProgramPageState extends State<ProgramPage> {
           'Description': program['Description'],
           'StartDate': program['StartDate'],
           'EndDate': program['EndDate'],
-          'Id': program['Id'], // Thêm 'Id' vào dữ liệu chương trình
+          'Id': program['Id'],
         };
       }).toList();
     } else {
@@ -51,7 +52,7 @@ class _ProgramPageState extends State<ProgramPage> {
           description: program['Description'],
           startDate: program['StartDate'],
           endDate: program['EndDate'],
-          programId: program['Id'], // Truyền 'Id' của chương trình
+          programId: program['Id'],
         ),
       ),
     );
@@ -61,17 +62,32 @@ class _ProgramPageState extends State<ProgramPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Program'),
+        title: const Text('Programs'),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.network(
-              'https://www.bnet-tech.com/wp-content/uploads/2021/01/218_2-small.jpg',
-              width: MediaQuery.of(context).size.width,
-              fit: BoxFit.cover,
+          Container(
+            height: 150,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(
+                    'https://www.bnet-tech.com/wp-content/uploads/2021/01/218_2-small.jpg'),
+                fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(
+                    Colors.black.withOpacity(0.5), BlendMode.darken),
+              ),
+            ),
+            child: Center(
+              child: Text(
+                'Explore Programs',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
           Expanded(
@@ -79,7 +95,7 @@ class _ProgramPageState extends State<ProgramPage> {
               future: _programData,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
+                  return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else {
@@ -88,16 +104,68 @@ class _ProgramPageState extends State<ProgramPage> {
                     itemCount: programData.length,
                     itemBuilder: (context, index) {
                       final program = programData[index];
-                      return ListTile(
-                        title: Text(program['Name']),
-                        subtitle: Text(program['Code']),
-                        leading: Image.network(program['Image']),
+                      return InkWell(
                         onTap: () {
-                          _navigateToDetailPage(
-                            context,
-                            program,
-                          );
+                          _navigateToDetailPage(context, program);
                         },
+                        child: Card(
+                          elevation: 4.0,
+                          margin: EdgeInsets.all(8.0),
+                          color: Colors.blueGrey[50], // Adjust card color
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: 100,
+                                  height: 100,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: Image.network(
+                                      program['Image'],
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 10.0),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        program['Name'],
+                                        style: TextStyle(
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(height: 4.0),
+                                      Text(
+                                        program['Code'],
+                                        style: TextStyle(
+                                          fontSize: 16.0,
+                                          color: Colors.grey[600],
+                                        ),
+                                      ),
+                                      SizedBox(height: 8.0),
+                                      Text(
+                                        program['Description'],
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: Colors.grey[600],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       );
                     },
                   );
