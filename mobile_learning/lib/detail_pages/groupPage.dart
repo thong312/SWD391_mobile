@@ -41,6 +41,26 @@ class GroupDetailPage extends StatelessWidget {
     }
   }
 
+  Future<List<Map<String, dynamic>>> _fetchTeamData(int groupId) async {
+    const String baseUrl =
+        'https://stem-backend.vercel.app/api/v1/teams/team-in-group';
+
+    final Uri uri = Uri.parse('$baseUrl?GroupId=$groupId');
+
+    final response = await http.get(uri);
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+      return data.map((team) {
+        return {
+          'TeamName': team['TeamName'],
+        };
+      }).toList();
+    } else {
+      throw Exception('Failed to load team data');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,6 +143,53 @@ class GroupDetailPage extends StatelessWidget {
                         },
                         child: const Text('View Members'),
                       ),
+                      ElevatedButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Center(
+                                child: AlertDialog(
+                                  title: const Text('Teams'),
+                                  content: SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.8, // 80% of screen width
+                                    height: MediaQuery.of(context).size.height *
+                                        0.4, // 40% of screen height
+                                    child: FutureBuilder<
+                                        List<Map<String, dynamic>>>(
+                                      future: _fetchTeamData(groupId),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        } else if (snapshot.hasError) {
+                                          return Center(
+                                            child: Text(
+                                                'Error: ${snapshot.error}'),
+                                          );
+                                        } else {
+                                          final teamData = snapshot.data!;
+                                          return ListView(
+                                            children: teamData.map((team) {
+                                              return _buildTeamItem(
+                                                team['TeamName'],
+                                              );
+                                            }).toList(),
+                                          );
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        child: const Text('View Teams'),
+                      ),
                     ],
                   ),
                 ),
@@ -172,6 +239,22 @@ class GroupDetailPage extends StatelessWidget {
         const SizedBox(height: 8),
         Text(
           'Code: $code',
+          style: const TextStyle(
+            fontSize: 18,
+            color: Colors.black87,
+          ),
+        ),
+        const SizedBox(height: 12),
+      ],
+    );
+  }
+
+  Widget _buildTeamItem(String name) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Team Name: $name',
           style: const TextStyle(
             fontSize: 18,
             color: Colors.black87,
